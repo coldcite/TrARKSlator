@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
@@ -69,13 +70,36 @@ namespace TrARKSlator
         public void addLine(Pso2LogEventArgs msg)
         {
 
-            // That's a command, let's ignore it
+            // That's a command, let's quit
             if ( msg.Message.StartsWith("/la") ||
-                 msg.Message.StartsWith("/ci") ||
-                 msg.Message.StartsWith("/vo") ||
+                 msg.Message.StartsWith("/mla") ||
+                 msg.Message.StartsWith("/fla") ||
+                 msg.Message.StartsWith("/cla") ||
+                 msg.Message.StartsWith("/cmf") ||
                  msg.Message.StartsWith("/pal") || 
-                 msg.Message.StartsWith("/mpal") ) 
+                 msg.Message.StartsWith("/mpal") ||
+                 msg.Message.StartsWith("/symbol") ) 
             return;
+
+            // Let's remove all crap 
+            // All these replaces and regex might take some performance hit, gotta check it out and try to find a better method.
+            StringBuilder sb = new StringBuilder(msg.Message);
+            msg.Message = sb
+                .Replace("/a ", "").Replace("/p ", "").Replace("/t ", "")           // Channel modifier
+                .Replace("{red}", "").Replace("{ora}", "").Replace("{yel}", "")
+                .Replace("{gre}", "").Replace("{blu}", "").Replace("{pur}", "")
+                .Replace("{vio}", "").Replace("{bei}", "").Replace("{whi}", "")
+                .Replace("{blk}", "").Replace("{def}", "")                          // Colors
+                .Replace("nw ", "")                                                 // nw param for /ci
+                .Replace("/toge ", "").Replace("/moya ", "")                        // Chat bubble type
+                .ToString();
+
+            msg.Message = Regex.Replace(msg.Message, @"\/vo\d*\s", "");     // /voXX command
+            msg.Message = Regex.Replace(msg.Message, @"\/mn\d*\s", "");     // /mn command
+            msg.Message = Regex.Replace(msg.Message, @"\ss\d*\s", " ");     // sXXX param for /ci
+            msg.Message = Regex.Replace(msg.Message, @"t\d\s", "");         // tX param for /ci
+            msg.Message = Regex.Replace(msg.Message, @"\/ci\d\s\d\s", "");  // /ciX X command
+            msg.Message = Regex.Replace(msg.Message, @"\/ci\d\s", "");      // /ciX command
 
             // Callback
             if (this.txtLog.InvokeRequired) {
