@@ -90,16 +90,20 @@ namespace TrARKSlator
                 .Replace("{gre}", "").Replace("{blu}", "").Replace("{pur}", "")
                 .Replace("{vio}", "").Replace("{bei}", "").Replace("{whi}", "")
                 .Replace("{blk}", "").Replace("{def}", "")                          // Colors
-                .Replace("nw ", "")                                                 // nw param for /ci
+                .Replace(" nw", "")                                                 // nw param for /ci
                 .Replace("/toge ", "").Replace("/moya ", "")                        // Chat bubble type
                 .ToString();
 
-            msg.Message = Regex.Replace(msg.Message, @"\/vo\d*\s", "");     // /voXX command
+            // These are a little bit more complex, we require regex
+            msg.Message = Regex.Replace(msg.Message, @"\/vo\d*\s*", "");     // /voXX command
             msg.Message = Regex.Replace(msg.Message, @"\/mn\d*\s", "");     // /mn command
-            msg.Message = Regex.Replace(msg.Message, @"\ss\d*\s", " ");     // sXXX param for /ci
-            msg.Message = Regex.Replace(msg.Message, @"t\d\s", "");         // tX param for /ci
-            msg.Message = Regex.Replace(msg.Message, @"\/ci\d\s\d\s", "");  // /ciX X command
-            msg.Message = Regex.Replace(msg.Message, @"\/ci\d\s", "");      // /ciX command
+            msg.Message = Regex.Replace(msg.Message, @"\ss\d*\s*", " ");     // sXXX param for /ci
+            msg.Message = Regex.Replace(msg.Message, @"t\d\s*", "");         // tX param for /ci
+            msg.Message = Regex.Replace(msg.Message, @"\/ci\d\s\d\s*", "");  // /ciX X command
+            msg.Message = Regex.Replace(msg.Message, @"\/ci\d\s*", "");      // /ciX command
+
+            // Message turned out all crap, let's get out
+            if (msg.Message == "") return;
 
             // Callback
             if (this.txtLog.InvokeRequired) {
