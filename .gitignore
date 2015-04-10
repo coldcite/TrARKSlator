@@ -9,8 +9,8 @@
 # Build results
 
 [Dd]ebug/
-[Rr]elease/
 x64/
+[Rr]elease/
 build/
 [Bb]in/
 [Oo]bj/

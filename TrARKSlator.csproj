@@ -171,9 +171,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bin\x86\Release\Newtonsoft.Json.dll" />
-    <Content Include="bin\x86\Release\NLog.dll" />
-    <Content Include="bin\x86\Release\TrARKSlator.exe" />
     <Content Include="packages\NLog.3.1.0.0\lib\net35\NLog.dll" />
     <Content Include="packages\NLog.3.1.0.0\lib\net35\NLog.xml" />
     <Content Include="packages\NLog.3.1.0.0\lib\net40\NLog.dll" />
