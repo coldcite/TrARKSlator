@@ -5,20 +5,15 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
-using System.Xml;
-using System.Web;
 using Hakusai.Pso2;
 
 namespace TrARKSlator
 {
     public partial class fMain : Form
     {
-
-        static readonly string YandexAPIKey = "trnsl.1.1.20150408T214800Z.14e18f16466443df.012cd433e247225cad264276715c83084b25e71e";
 
         public fMain()
         {
@@ -27,15 +22,43 @@ namespace TrARKSlator
 
         private void fMain_Load(object sender, EventArgs e)
         {
+            this.Text += String.Format(" {0}", System.Reflection.Assembly.GetExecutingAssembly().GetName().Version);
 
+            // Populate translation menu
+            AvailableTranslationServices.List().ForEach(
+                delegate(TranslatorService tr)
+                {
+
+                    var ttb = new ToolStripButton(tr.Name);
+                    ttb.Click += new EventHandler(tsddbServicesItemHandler);
+                    tsddbServices.DropDownItems.Add(ttb);
+
+                    if ((Properties.Settings.Default.TranslatorEngine == tr.Name) || (AvailableTranslationServices.Active == tr))
+                        ActivateService(tr.Name);
+
+                });
+
+            // Load settings
             this.Size = Properties.Settings.Default.FormSize;
             this.Location = Properties.Settings.Default.FormPos;
             this.OnResize(e);
 
+            // Start the log watcher
             using (IPso2LogWatcherFactory factory = new Pso2LogWatcherFactory())
             using (IPso2LogWatcher watcher = factory.CreatePso2LogWatcher())
             {
-                 watcher.Pso2LogEvent += (sndr, ev) => { addLine(ev); };
+                 watcher.Pso2LogEvent += (sndr, ev) => {
+
+                     // That's a command, let's quit
+                     if (ParsingSupport.isPSO2ChatCommand(ev.Message)) return;
+
+                     // Let's remove all crap
+                     ev.Message = ParsingSupport.chatCleanUp(ev.Message);
+
+                     // If message didn't turned out all crap, let's display
+                     if (ev.Message != "") addLine(ev); 
+                 
+                 };
                  watcher.Start();
              }
 
@@ -43,8 +66,10 @@ namespace TrARKSlator
 
         private void fMain_FormClosing(object sender, FormClosingEventArgs e)
         {
+            // Saving settings
             Properties.Settings.Default.FormSize = this.Size;
             Properties.Settings.Default.FormPos = this.Location;
+            Properties.Settings.Default.TranslatorEngine = AvailableTranslationServices.Active.Name;
             Properties.Settings.Default.Save();
         }
         
@@ -54,8 +79,6 @@ namespace TrARKSlator
             txtLog.Width = this.Width-21;
             txtLog.Height = this.Height-60;
 
-            lnkYandex.Location = new Point(this.Width - lnkYandex.Width-15, this.Height - lnkYandex.Height-40);
-
         }
 
         private void txtLog_TextChanged(object sender, EventArgs e)
@@ -64,53 +87,38 @@ namespace TrARKSlator
         }
 
 
+        private void tsddbServicesItemHandler(object sender, EventArgs e) {
 
-        // Add chalog message to log
+            ActivateService(sender.ToString());
+
+        }
+
+        private void ActivateService(string service)
+        {
+
+            // Update menu items
+            foreach (ToolStripButton d in tsddbServices.DropDownItems) { d.Checked = (d.Text == service); }
+            tsslActive.Text = service;
+            
+            // Update current active
+            AvailableTranslationServices.Active = AvailableTranslationServices.List().Find(x => x.Name == service);
+
+        }
+        
+        // Add chalog message to our log
         delegate void addLineCallback(Pso2LogEventArgs msg);
         public void addLine(Pso2LogEventArgs msg)
         {
-
-            // That's a command, let's quit
-            if ( msg.Message.StartsWith("/la") ||
-                 msg.Message.StartsWith("/mla") ||
-                 msg.Message.StartsWith("/fla") ||
-                 msg.Message.StartsWith("/cla") ||
-                 msg.Message.StartsWith("/cmf") ||
-                 msg.Message.StartsWith("/pal") || 
-                 msg.Message.StartsWith("/mpal") ||
-                 msg.Message.StartsWith("/symbol") ) 
-            return;
-
-            // Let's remove all crap 
-            // All these replaces and regex might take some performance hit, gotta check it out and try to find a better method.
-            StringBuilder sb = new StringBuilder(msg.Message);
-            msg.Message = sb
-                .Replace("/a ", "").Replace("/p ", "").Replace("/t ", "")           // Channel modifier
-                .Replace("{red}", "").Replace("{ora}", "").Replace("{yel}", "")
-                .Replace("{gre}", "").Replace("{blu}", "").Replace("{pur}", "")
-                .Replace("{vio}", "").Replace("{bei}", "").Replace("{whi}", "")
-                .Replace("{blk}", "").Replace("{def}", "")                          // Colors
-                .Replace(" nw", "")                                                 // nw param for /ci
-                .Replace("/toge ", "").Replace("/moya ", "")                        // Chat bubble type
-                .ToString();
-
-            // These are a little bit more complex, we require regex
-            msg.Message = Regex.Replace(msg.Message, @"\/vo\d*\s*", "");     // /voXX command
-            msg.Message = Regex.Replace(msg.Message, @"\/mn\d*\s", "");     // /mn command
-            msg.Message = Regex.Replace(msg.Message, @"\ss\d*\s*", " ");     // sXXX param for /ci
-            msg.Message = Regex.Replace(msg.Message, @"t\d\s*", "");         // tX param for /ci
-            msg.Message = Regex.Replace(msg.Message, @"\/ci\d\s\d\s*", "");  // /ciX X command
-            msg.Message = Regex.Replace(msg.Message, @"\/ci\d\s*", "");      // /ciX command
-
-            // Message turned out all crap, let's get out
-            if (msg.Message == "") return;
-
             // Callback
-            if (this.txtLog.InvokeRequired) {
+            if (this.txtLog.InvokeRequired)
+            {
                 addLineCallback d = new addLineCallback(addLine);
                 this.Invoke(d, new object[] { msg });
-            } else {
+            }
+            else
+            {
 
+                // Let's pick a color to print
                 Color msgColor;
                 switch (msg.SendTo) {
                     case "PARTY": msgColor = Color.FromArgb(76,228,255); break;
@@ -119,44 +127,25 @@ namespace TrARKSlator
                     default: msgColor = Color.FromArgb(255,255,255); break;
                 }
 
-                // Is it not EN?
-                string msgLang = "??";
-                string detectURL = "https://translate.yandex.net/api/v1.5/tr/detect?key=" + YandexAPIKey + "&text=" + HttpUtility.UrlEncode(msg.Message);
-                XmlReader xmlDetect = XmlReader.Create(detectURL);
-                while (xmlDetect.Read()) {
-                    if ((xmlDetect.NodeType == XmlNodeType.Element) && (xmlDetect.Name == "DetectedLang"))
-                    { msgLang = xmlDetect.GetAttribute("lang"); if ((msgLang == "") || (msgLang == "zh")) msgLang = "ja"; } // Sometimes Yandex mistakes CH for JP
-                }
+                TranslatorService tr = AvailableTranslationServices.Active;
 
-                // If not, just translate
+                // Which language is it?
+                string msgLang = tr.DetectLanguage(msg.Message);
+
+                // If not EN, translate
                 string transText = "";
-                if (msgLang != "en") {
+                if (msgLang != "en") transText = tr.Translate(msg.Message, msgLang);
 
-                    string transURL = "https://translate.yandex.net/api/v1.5/tr/translate?key=" + YandexAPIKey + "&lang=" + msgLang + "-en&text=" + HttpUtility.UrlEncode(msg.Message);
-                    XmlReader xmlTrans = XmlReader.Create(transURL);
-                    while (xmlTrans.Read())
-                    {
-                        if ((xmlTrans.NodeType == XmlNodeType.Text))
-                        { transText += xmlTrans.Value; }
-                    }
-                
-                }
-
-
+                // Let's add whatever
+                // Only add translation if not english AND it's not the same text (sometimes gibberish gets translated because it's detected as some other language)
                 txtLog.AppendText(msg.From + "\r\n", msgColor, 0, true);
                 txtLog.AppendText(msg.Message + "\r\n", msgColor, 15);
-                if (msgLang != "en")
-                    txtLog.AppendText("[" + msgLang.ToUpper() + "] " + transText + "\r\n", msgColor, 15, false, true);
+                if ( (msgLang != "en") && (msg.Message != transText) ) 
+                    txtLog.AppendText(transText + "\r\n", msgColor, 15, false, true, 12);
 
-            } 
+            }
 
         }
-
-        private void lnkYandex_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("http://translate.yandex.com/");
-        }
-
 
 
 

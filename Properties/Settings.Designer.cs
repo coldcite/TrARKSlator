@@ -37,13 +37,25 @@ namespace TrARKSlator.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("625, 400")]
+        [global::System.Configuration.DefaultSettingValueAttribute("300, 540")]
         public global::System.Drawing.Size FormSize {
             get {
                 return ((global::System.Drawing.Size)(this["FormSize"]));
             }
             set {
                 this["FormSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string TranslatorEngine {
+            get {
+                return ((string)(this["TranslatorEngine"]));
+            }
+            set {
+                this["TranslatorEngine"] = value;
             }
         }
     }

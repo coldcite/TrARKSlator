@@ -6,7 +6,10 @@
       <Value Profile="(Default)">50, 50</Value>
     </Setting>
     <Setting Name="FormSize" Type="System.Drawing.Size" Scope="User">
-      <Value Profile="(Default)">625, 400</Value>
+      <Value Profile="(Default)">300, 540</Value>
+    </Setting>
+    <Setting Name="TranslatorEngine" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>

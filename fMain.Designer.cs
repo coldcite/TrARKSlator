@@ -28,13 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fMain));
             this.txtLog = new System.Windows.Forms.RichTextBox();
-            this.lnkYandex = new System.Windows.Forms.LinkLabel();
+            this.statusStripMain = new System.Windows.Forms.StatusStrip();
+            this.tsddbServices = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tsslActive = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusStripMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtLog
             // 
-            this.txtLog.BackColor = System.Drawing.Color.Gray;
+            this.txtLog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.txtLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtLog.Font = new System.Drawing.Font("Segoe UI", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtLog.ForeColor = System.Drawing.Color.White;
@@ -47,35 +51,51 @@
             this.txtLog.Text = "";
             this.txtLog.TextChanged += new System.EventHandler(this.txtLog_TextChanged);
             // 
-            // lnkYandex
+            // statusStripMain
             // 
-            this.lnkYandex.ActiveLinkColor = System.Drawing.Color.Blue;
-            this.lnkYandex.AutoSize = true;
-            this.lnkYandex.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lnkYandex.LinkColor = System.Drawing.Color.Blue;
-            this.lnkYandex.Location = new System.Drawing.Point(243, 349);
-            this.lnkYandex.Name = "lnkYandex";
-            this.lnkYandex.Size = new System.Drawing.Size(224, 16);
-            this.lnkYandex.TabIndex = 2;
-            this.lnkYandex.TabStop = true;
-            this.lnkYandex.Text = "Powered by Yandex.Translate";
-            this.lnkYandex.VisitedLinkColor = System.Drawing.Color.Blue;
-            this.lnkYandex.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkYandex_LinkClicked);
+            this.statusStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsddbServices,
+            this.tsslActive});
+            this.statusStripMain.Location = new System.Drawing.Point(0, 480);
+            this.statusStripMain.Name = "statusStripMain";
+            this.statusStripMain.Size = new System.Drawing.Size(284, 22);
+            this.statusStripMain.TabIndex = 2;
+            this.statusStripMain.Text = "statusStrip1";
+            // 
+            // tsddbServices
+            // 
+            this.tsddbServices.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsddbServices.Image = ((System.Drawing.Image)(resources.GetObject("tsddbServices.Image")));
+            this.tsddbServices.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsddbServices.Name = "tsddbServices";
+            this.tsddbServices.Size = new System.Drawing.Size(29, 20);
+            this.tsddbServices.ToolTipText = "Translation service to use";
+            // 
+            // tsslActive
+            // 
+            this.tsslActive.BackColor = System.Drawing.Color.Transparent;
+            this.tsslActive.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.tsslActive.Name = "tsslActive";
+            this.tsslActive.Size = new System.Drawing.Size(22, 17);
+            this.tsslActive.Text = "---";
             // 
             // fMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Gray;
-            this.ClientSize = new System.Drawing.Size(609, 376);
-            this.Controls.Add(this.lnkYandex);
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.ClientSize = new System.Drawing.Size(284, 502);
+            this.Controls.Add(this.statusStripMain);
             this.Controls.Add(this.txtLog);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Location = new System.Drawing.Point(50, 50);
             this.Name = "fMain";
-            this.Text = "TrARKSlator 0.01";
+            this.Text = "TrARKSlator";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.fMain_FormClosing);
             this.Load += new System.EventHandler(this.fMain_Load);
             this.Resize += new System.EventHandler(this.fMain_Resize);
+            this.statusStripMain.ResumeLayout(false);
+            this.statusStripMain.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -84,6 +104,8 @@
         #endregion
 
         private System.Windows.Forms.RichTextBox txtLog;
-        private System.Windows.Forms.LinkLabel lnkYandex;
+        private System.Windows.Forms.StatusStrip statusStripMain;
+        private System.Windows.Forms.ToolStripDropDownButton tsddbServices;
+        private System.Windows.Forms.ToolStripStatusLabel tsslActive;
     }
 }
