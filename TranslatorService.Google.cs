@@ -40,7 +40,12 @@ namespace TrARKSlator
                transResp = client.DownloadString(transURL);
             }
             JArray trObject = JArray.Parse(transResp);
-            string transText = trObject[0][0][0].ToString();
+            string transText = "";
+            foreach (JArray line in trObject[0]) { 
+                transText += line[0].ToString();
+            }
+
+            transText=transText.TrimEnd(Environment.NewLine.ToCharArray());
 
             return transText.Length > 0 ? transText : text;
 

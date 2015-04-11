@@ -186,6 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon1.ico" />
+    <Content Include="LICENSE.txt" />
     <Content Include="packages\NLog.3.1.0.0\lib\net35\NLog.dll" />
     <Content Include="packages\NLog.3.1.0.0\lib\net35\NLog.xml" />
     <Content Include="packages\NLog.3.1.0.0\lib\net40\NLog.dll" />
