@@ -13,5 +13,7 @@ Might add a few other translation services, I'm even looking at the possibility 
 I'm not 100% on adding more features since I don't know how much spare time I can/am willing to spend on this, and I believe there are a few other similar projects already going on, including the original.
 
 ## Thanks
+
 PSO2 Chat Translator - http://www.pso-world.com/forums/showthread.php?t=204921
+
 Hakusai - https://github.com/hakusailove/Hakusai/
