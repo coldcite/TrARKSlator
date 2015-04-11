@@ -73,6 +73,16 @@ namespace TrARKSlator.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap properties_16xSM {
+            get {
+                object obj = ResourceManager.GetObject("properties_16xSM", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap pushpin_16xSM {
             get {
                 object obj = ResourceManager.GetObject("pushpin_16xSM", resourceCulture);

@@ -36,7 +36,7 @@ namespace TrARKSlator
     // RTF Extension
     public static class RichTextBoxExtensions
     {
-        public static void AppendText(this RichTextBox box, string text, Color color, int indent=0, bool bold=false, bool italic = false, float fontSize=0)
+        public static void AppendText(this RichTextBox box, string text, Color color, int indent=0, bool bold=false, bool italic = false, float fontScale=1)
         {
 
             box.SelectionStart = box.TextLength;
@@ -45,9 +45,10 @@ namespace TrARKSlator
             box.SelectionColor = color;
             box.SelectionIndent = indent;
             box.SelectionFont = new Font(
-                box.Font.FontFamily,
-                (fontSize != 0 ? fontSize : box.Font.Size),
-                (bold ? FontStyle.Bold : 0) | (italic ? FontStyle.Italic : 0) );
+                Properties.Settings.Default.Font.FontFamily,
+                Properties.Settings.Default.Font.Size * fontScale,
+                Properties.Settings.Default.Font.Style | (bold ? FontStyle.Bold : 0) | (italic ? FontStyle.Italic : 0)
+            );
 
             box.AppendText(text);
             box.SelectionColor = box.ForeColor;

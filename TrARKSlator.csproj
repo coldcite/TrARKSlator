@@ -111,6 +111,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="fPreferences.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="fPreferences.Designer.cs">
+      <DependentUpon>fPreferences.cs</DependentUpon>
+    </Compile>
     <Compile Include="TextOnGlass.GlassText.cs" />
     <Compile Include="ParsingSupport.cs" />
     <Compile Include="ToolStripTrackBar.cs" />
@@ -130,6 +136,9 @@
     <Compile Include="TranslatorService.cs" />
     <EmbeddedResource Include="fMain.resx">
       <DependentUpon>fMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="fPreferences.resx">
+      <DependentUpon>fPreferences.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -187,6 +196,7 @@
     <Content Include="packages\NLog.3.1.0.0\lib\sl4\NLog.xml" />
     <Content Include="packages\NLog.3.1.0.0\lib\sl5\NLog.dll" />
     <Content Include="packages\NLog.3.1.0.0\lib\sl5\NLog.xml" />
+    <None Include="Resources\properties_16xSM.png" />
     <None Include="Resources\icon1.png" />
     <None Include="Resources\Symbols_Critical_32xSM.png" />
     <None Include="Resources\Symbols_Critical_16xSM.png" />

@@ -17,5 +17,23 @@
     <Setting Name="Opacity" Type="System.Double" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
+    <Setting Name="Font" Type="System.Drawing.Font" Scope="User">
+      <Value Profile="(Default)">Segoe UI, 9.75pt</Value>
+    </Setting>
+    <Setting Name="ColorDefault" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">White</Value>
+    </Setting>
+    <Setting Name="ColorParty" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">76, 228, 255</Value>
+    </Setting>
+    <Setting Name="ColorGuild" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Orange</Value>
+    </Setting>
+    <Setting Name="ColorReply" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">255, 135, 204</Value>
+    </Setting>
+    <Setting Name="ColorBackground" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">64, 64, 64</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

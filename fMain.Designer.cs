@@ -30,17 +30,18 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(fMain));
             this.statusStripMain = new System.Windows.Forms.StatusStrip();
+            this.tsddbPreferences = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsddbServices = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsslSeparator = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsddbOpacity = new System.Windows.Forms.ToolStripDropDownButton();
-            this.tstbOpacity = new Microsoft.ParallelComputingPlatform.ParallelExtensions.Samples.ToolStripTrackBar();
             this.tsddbAlwaysOnTopOff = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsddbAlwaysOnTopOn = new System.Windows.Forms.ToolStripDropDownButton();
-            this.btnClose = new System.Windows.Forms.Button();
             this.pnlTop = new System.Windows.Forms.Panel();
             this.lblAppTitle = new System.Windows.Forms.Label();
             this.pnlMid = new System.Windows.Forms.Panel();
             this.txtLog = new System.Windows.Forms.RichTextBox();
+            this.btnClose = new System.Windows.Forms.Button();
+            this.tstbOpacity = new Microsoft.ParallelComputingPlatform.ParallelExtensions.Samples.ToolStripTrackBar();
             this.statusStripMain.SuspendLayout();
             this.pnlTop.SuspendLayout();
             this.pnlMid.SuspendLayout();
@@ -50,6 +51,7 @@
             // 
             this.statusStripMain.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.statusStripMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsddbPreferences,
             this.tsddbServices,
             this.tsslSeparator,
             this.tsddbOpacity,
@@ -57,9 +59,22 @@
             this.tsddbAlwaysOnTopOn});
             this.statusStripMain.Location = new System.Drawing.Point(0, 160);
             this.statusStripMain.Name = "statusStripMain";
+            this.statusStripMain.ShowItemToolTips = true;
             this.statusStripMain.Size = new System.Drawing.Size(298, 24);
             this.statusStripMain.SizingGrip = false;
             this.statusStripMain.TabIndex = 2;
+            // 
+            // tsddbPreferences
+            // 
+            this.tsddbPreferences.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.tsddbPreferences.Image = global::TrARKSlator.Properties.Resources.properties_16xSM;
+            this.tsddbPreferences.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.tsddbPreferences.Margin = new System.Windows.Forms.Padding(0, 2, 0, 2);
+            this.tsddbPreferences.Name = "tsddbPreferences";
+            this.tsddbPreferences.ShowDropDownArrow = false;
+            this.tsddbPreferences.Size = new System.Drawing.Size(20, 20);
+            this.tsddbPreferences.ToolTipText = "Preferences";
+            this.tsddbPreferences.Click += new System.EventHandler(this.tsddbPreferences_Click);
             // 
             // tsddbServices
             // 
@@ -70,13 +85,13 @@
             this.tsddbServices.Name = "tsddbServices";
             this.tsddbServices.Size = new System.Drawing.Size(48, 20);
             this.tsddbServices.Text = "---";
-            this.tsddbServices.ToolTipText = "Translation service to use";
+            this.tsddbServices.ToolTipText = "Translation Service";
             // 
             // tsslSeparator
             // 
             this.tsslSeparator.BackColor = System.Drawing.Color.Transparent;
             this.tsslSeparator.Name = "tsslSeparator";
-            this.tsslSeparator.Size = new System.Drawing.Size(182, 19);
+            this.tsslSeparator.Size = new System.Drawing.Size(111, 19);
             this.tsslSeparator.Spring = true;
             // 
             // tsddbOpacity
@@ -91,14 +106,7 @@
             this.tsddbOpacity.Size = new System.Drawing.Size(53, 20);
             this.tsddbOpacity.Text = "--%";
             this.tsddbOpacity.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
-            // 
-            // tstbOpacity
-            // 
-            this.tstbOpacity.Minimum = 25;
-            this.tstbOpacity.Name = "tstbOpacity";
-            this.tstbOpacity.Size = new System.Drawing.Size(104, 16);
-            this.tstbOpacity.Value = 100;
-            this.tstbOpacity.ValueChanged += new System.EventHandler(this.tstbOpacity_ValueChanged);
+            this.tsddbOpacity.ToolTipText = "Opacity";
             // 
             // tsddbAlwaysOnTopOff
             // 
@@ -127,26 +135,10 @@
             this.tsddbAlwaysOnTopOn.Visible = false;
             this.tsddbAlwaysOnTopOn.Click += new System.EventHandler(this.tsddbAlwaysOnTopOn_Click);
             // 
-            // btnClose
-            // 
-            this.btnClose.BackColor = System.Drawing.SystemColors.Control;
-            this.btnClose.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlDark;
-            this.btnClose.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlDark;
-            this.btnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
-            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnClose.Image = global::TrARKSlator.Properties.Resources.Symbols_Critical_32xSM;
-            this.btnClose.Location = new System.Drawing.Point(258, 0);
-            this.btnClose.Name = "btnClose";
-            this.btnClose.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.btnClose.Size = new System.Drawing.Size(25, 15);
-            this.btnClose.TabIndex = 5;
-            this.btnClose.UseVisualStyleBackColor = false;
-            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
             // pnlTop
             // 
             this.pnlTop.Controls.Add(this.lblAppTitle);
-            this.pnlTop.Cursor = System.Windows.Forms.Cursors.SizeAll;
+            this.pnlTop.Cursor = System.Windows.Forms.Cursors.Default;
             this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTop.Location = new System.Drawing.Point(0, 0);
             this.pnlTop.Name = "pnlTop";
@@ -184,10 +176,36 @@
             this.txtLog.Location = new System.Drawing.Point(0, 0);
             this.txtLog.Margin = new System.Windows.Forms.Padding(35, 5, 5, 35);
             this.txtLog.Name = "txtLog";
+            this.txtLog.ReadOnly = true;
             this.txtLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
             this.txtLog.Size = new System.Drawing.Size(298, 138);
             this.txtLog.TabIndex = 2;
             this.txtLog.Text = "";
+            this.txtLog.TextChanged += new System.EventHandler(this.txtLog_TextChanged);
+            // 
+            // btnClose
+            // 
+            this.btnClose.BackColor = System.Drawing.SystemColors.Control;
+            this.btnClose.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlDark;
+            this.btnClose.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlDark;
+            this.btnClose.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+            this.btnClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnClose.Image = global::TrARKSlator.Properties.Resources.Symbols_Critical_32xSM;
+            this.btnClose.Location = new System.Drawing.Point(258, 0);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
+            this.btnClose.Size = new System.Drawing.Size(25, 15);
+            this.btnClose.TabIndex = 5;
+            this.btnClose.UseVisualStyleBackColor = false;
+            this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
+            // 
+            // tstbOpacity
+            // 
+            this.tstbOpacity.Minimum = 25;
+            this.tstbOpacity.Name = "tstbOpacity";
+            this.tstbOpacity.Size = new System.Drawing.Size(104, 16);
+            this.tstbOpacity.Value = 100;
+            this.tstbOpacity.ValueChanged += new System.EventHandler(this.tstbOpacity_ValueChanged);
             // 
             // fMain
             // 
@@ -232,5 +250,6 @@
         private System.Windows.Forms.Panel pnlMid;
         private System.Windows.Forms.RichTextBox txtLog;
         private System.Windows.Forms.Label lblAppTitle;
+        private System.Windows.Forms.ToolStripDropDownButton tsddbPreferences;
     }
 }

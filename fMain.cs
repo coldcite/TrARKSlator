@@ -20,7 +20,6 @@ namespace TrARKSlator
     {
 
         // Move with label
-
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HTCAPTION = 0x2;
         [DllImport("User32.dll")]
@@ -28,20 +27,33 @@ namespace TrARKSlator
         [DllImport("User32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
+        // MouseLeave trick
+        Timer ptOnWinTimer = new Timer();
+
+
+
         public fMain()
         {
 
             InitializeComponent();
 
+            // Aero trick
             if (GlassText.IsCompositionEnabled())
             {
                 pnlTop.BackColor = Color.Black;
-                lblAppTitle.Location = new Point(-10, -9);
+                lblAppTitle.Location = new Point(-5, -5); lblAppTitle.Visible = false;
                 GlassText.MARGINS mg = new GlassText.MARGINS();
                 mg.m_Buttom = 0; mg.m_Left = 0; mg.m_Right = 0; mg.m_Top = pnlTop.Height;
                 GlassText.DwmExtendFrameIntoClientArea(this.Handle, ref mg);
             }
+
+            // MouseLeave trick
+            ptOnWinTimer.Tick += new EventHandler(ptOnWinTimer_Tick);
+            ptOnWinTimer.Interval = 50;
+            ptOnWinTimer.Enabled = true;
+
         }
+
 
 
         private void fMain_Load(object sender, EventArgs e)
@@ -65,10 +77,11 @@ namespace TrARKSlator
                 });
 
             // Load settings
-            ToggleAlwaysOnTop(Properties.Settings.Default.AlwaysOnTop);
+            toggleAlwaysOnTop(Properties.Settings.Default.AlwaysOnTop);
             SetOpacity(Properties.Settings.Default.Opacity);
             this.Size = Properties.Settings.Default.FormSize;
             this.Location = Properties.Settings.Default.FormPos;
+            txtLog.BackColor = Properties.Settings.Default.ColorBackground;
             this.OnResize(e);
 
 
@@ -115,17 +128,18 @@ namespace TrARKSlator
 
         private void txtLog_TextChanged(object sender, EventArgs e)
         {
+            Debug.WriteLine(txtLog.GetPositionFromCharIndex(0));
             txtLog.SelectionStart = txtLog.Text.Length; txtLog.ScrollToCaret();
         }
 
         private void tsddbAlwaysOnTopOff_Click(object sender, EventArgs e)
         {
-            ToggleAlwaysOnTop(false);
+            toggleAlwaysOnTop(false);
         }
 
         private void tsddbAlwaysOnTopOn_Click(object sender, EventArgs e)
         {
-            ToggleAlwaysOnTop(true);
+            toggleAlwaysOnTop(true);
         }
 
         private void tstbOpacity_ValueChanged(object sender, EventArgs e)
@@ -160,10 +174,26 @@ namespace TrARKSlator
 
                 GlassText glasstxt = new GlassText();
                 glasstxt.FillBlackRegion(pnlTop.CreateGraphics(), pnlTop.ClientRectangle);
-                glasstxt.DrawTextOnGlass(pnlTop.Handle, lblAppTitle.Text, lblAppTitle.Font, lblAppTitle.Bounds, 10);
+                glasstxt.DrawTextOnGlass(pnlTop.Handle, lblAppTitle.Text, lblAppTitle.Font, lblAppTitle.Bounds, 5);
 
             }
 
+        }
+
+        private void ptOnWinTimer_Tick(object sender, EventArgs e)
+        {
+            Point pos = Control.MousePosition;
+            bool inForm = pos.X >= Left && pos.Y >= Top && pos.X < Right && pos.Y < Bottom;
+            if (!inForm) {
+                if (this.TopMost && haveBorders()) toggleBordersOnly(true);
+            } else { if (!haveBorders()) toggleBordersOnly(false); }
+        }
+
+        private void tsddbPreferences_Click(object sender, EventArgs e)
+        {
+            fPreferences pref = new fPreferences();
+            pref.TopMost = this.TopMost;
+            if (pref.ShowDialog() == DialogResult.OK) txtLog.BackColor = Properties.Settings.Default.ColorBackground;
         }
 
 
@@ -189,7 +219,7 @@ namespace TrARKSlator
         }
 
         // Toggles always-on-top on/or
-        private void ToggleAlwaysOnTop(bool state) {
+        private void toggleAlwaysOnTop(bool state) {
 
             this.TopMost = state;
 
@@ -205,10 +235,29 @@ namespace TrARKSlator
             tsddbOpacity.Text = Convert.ToInt32(value * 100).ToString() + "%";
             if (setControl) tstbOpacity.Value = Convert.ToInt32(value*100);
             this.Opacity = value;
-
+            this.Invalidate();
 
         }
-        
+
+        // Toggle border only
+        private void toggleBordersOnly(bool state)
+        {
+            Debug.WriteLine("toggleBordersOnly");
+
+            pnlTop.Height = state ? 0 : 22;
+            statusStripMain.Visible = !state;
+
+            GlassText.MARGINS mg = new GlassText.MARGINS();
+            mg.m_Buttom = 0; mg.m_Left = 0; mg.m_Right = 0; mg.m_Top = pnlTop.Height;
+            GlassText.DwmExtendFrameIntoClientArea(this.Handle, ref mg);
+            this.Invalidate();
+
+        }
+        private bool haveBorders()
+        {
+            return pnlTop.Height != 0;
+        }
+
         // Add chalog message to our log
         delegate void addLineCallback(Pso2LogEventArgs msg);
         public void addLine(Pso2LogEventArgs msg)
@@ -225,10 +274,10 @@ namespace TrARKSlator
                 // Let's pick a color to print
                 Color msgColor;
                 switch (msg.SendTo) {
-                    case "PARTY": msgColor = Color.FromArgb(76,228,255); break;
-                    case "GUILD": msgColor = Color.FromArgb(255,165,0); break;
-                    case "REPLY": msgColor = Color.FromArgb(255,135,204); break;
-                    default: msgColor = Color.FromArgb(255,255,255); break;
+                    case "PARTY": msgColor = Properties.Settings.Default.ColorParty; break;
+                    case "GUILD": msgColor = Properties.Settings.Default.ColorGuild; break;
+                    case "REPLY": msgColor = Properties.Settings.Default.ColorReply; break;
+                    default: msgColor = Properties.Settings.Default.ColorDefault; break;
                 }
 
                 TranslatorService tr = AvailableTranslationServices.Active;
@@ -241,16 +290,14 @@ namespace TrARKSlator
                 if (msgLang != "en") transText = tr.Translate(msg.Message, msgLang);
 
                 // Let's add whatever
-                // Only add translation if not english AND it's not the same text (sometimes gibberish gets translated because it's detected as some other language)
                 txtLog.AppendText(msg.From + "\r\n", msgColor, 0, true);
                 txtLog.AppendText(msg.Message + "\r\n", msgColor, 15);
-                if ( (msgLang != "en") && (msg.Message != transText) ) 
-                    txtLog.AppendText(transText + "\r\n", msgColor, 15, false, true, 12);
+                if ((msgLang != "en") && (msg.Message != transText))      // Sometimes gibberish gets translated because it's detected as some other language
+                    txtLog.AppendText(transText + "\r\n", msgColor, 15, false, true, 0.7F);
 
             }
 
         }
-
 
 
 

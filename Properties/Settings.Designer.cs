@@ -82,5 +82,77 @@ namespace TrARKSlator.Properties {
                 this["Opacity"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Segoe UI, 9.75pt")]
+        public global::System.Drawing.Font Font {
+            get {
+                return ((global::System.Drawing.Font)(this["Font"]));
+            }
+            set {
+                this["Font"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("White")]
+        public global::System.Drawing.Color ColorDefault {
+            get {
+                return ((global::System.Drawing.Color)(this["ColorDefault"]));
+            }
+            set {
+                this["ColorDefault"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("76, 228, 255")]
+        public global::System.Drawing.Color ColorParty {
+            get {
+                return ((global::System.Drawing.Color)(this["ColorParty"]));
+            }
+            set {
+                this["ColorParty"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Orange")]
+        public global::System.Drawing.Color ColorGuild {
+            get {
+                return ((global::System.Drawing.Color)(this["ColorGuild"]));
+            }
+            set {
+                this["ColorGuild"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("255, 135, 204")]
+        public global::System.Drawing.Color ColorReply {
+            get {
+                return ((global::System.Drawing.Color)(this["ColorReply"]));
+            }
+            set {
+                this["ColorReply"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("64, 64, 64")]
+        public global::System.Drawing.Color ColorBackground {
+            get {
+                return ((global::System.Drawing.Color)(this["ColorBackground"]));
+            }
+            set {
+                this["ColorBackground"] = value;
+            }
+        }
     }
 }
