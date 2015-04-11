@@ -87,6 +87,9 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon1.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -108,7 +111,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TextOnGlass.GlassText.cs" />
     <Compile Include="ParsingSupport.cs" />
+    <Compile Include="ToolStripTrackBar.cs" />
     <Compile Include="TranslatorService.Google.cs" />
     <Compile Include="TranslatorService.Yandex.cs" />
     <Compile Include="Hakusai.CsvParser.cs" />
@@ -171,6 +176,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="icon1.ico" />
     <Content Include="packages\NLog.3.1.0.0\lib\net35\NLog.dll" />
     <Content Include="packages\NLog.3.1.0.0\lib\net35\NLog.xml" />
     <Content Include="packages\NLog.3.1.0.0\lib\net40\NLog.dll" />
@@ -181,7 +187,17 @@
     <Content Include="packages\NLog.3.1.0.0\lib\sl4\NLog.xml" />
     <Content Include="packages\NLog.3.1.0.0\lib\sl5\NLog.dll" />
     <Content Include="packages\NLog.3.1.0.0\lib\sl5\NLog.xml" />
+    <None Include="Resources\icon1.png" />
+    <None Include="Resources\Symbols_Critical_32xSM.png" />
+    <None Include="Resources\Symbols_Critical_16xSM.png" />
+    <None Include="Resources\Template_Application_16xSM.png" />
+    <None Include="Resources\unpin_16xSM.png" />
+    <None Include="Resources\pushpin_16xSM.png" />
+    <None Include="Resources\Message_16xSM.png" />
+    <None Include="Resources\ksokoban.png" />
+    <None Include="Resources\Image1.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -117,24 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="txtLog.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
   <metadata name="statusStripMain.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="tsddbServices.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAEhSURBVDhPjdMxSkNBEIDhkMJKUngGSSkWqazFSiSVWFmI
-        RRBPIDYWEjxASo9gISIeIIh4ALGwlhDEykJERP//ufNYgy/vDXwhO7s7O9klLWKM7xrnqAwXDLCWbKOf
-        jYd4RGVYwA1nyRPus/Eeagt46jWmuMQNzN+hUQFb7eITG/DkCTpoXMA4wTsstG6CaFxgBbb+Bgvcwo12
-        8pG+zypexwKe5slXWMYqXuBcneLDpzrEEWxZnpwvdH5zJqeiDdt5TYnnNLbtWOTcQuITR15lePMmtorR
-        b5FYNII/awcHKRfKOMYXTmERO4lFPezDuSXk3ZVhe15iTIQHtGFRLeICMf8nLGIn/py4E0/1lWKD/5vd
-        bFwZ+R3MUxm+zn8bMq3xD1rPjvZH7GCpAAAAAElFTkSuQmCC
-</value>
-  </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAMAMDAAAAEAIACoJQAANgAAACAgAAABACAAqBAAAN4lAAAQEAAAAQAgAGgEAACGNgAAKAAAADAA
