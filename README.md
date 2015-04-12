@@ -3,7 +3,12 @@ An extremely simple automatic PSO2 ChatLog Translator, that's just it, whatever 
 
 Heavily inspired by that one ChatLog translator from that one PSO-w thread that suddenly stopped working that one time it had that one issue with Google Translator.  
 
-Currently using Google and Yandex Translation with my very own API key, if too much people start using this software it might end up going above quota and blocked, in that case you can always get one for free and use it instead, after recompiling source that is.  
+Supports the following free translation services:
+- Google
+- Bing
+- Yandex (using my own key, might get blocked once quota is reached)
+- Babylon (JP only)
+- FreeTranslation.com (JP only)
 
 ## Requirements 
 Windows Vista _(Untested with Legacy versions)_  
