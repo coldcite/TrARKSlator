@@ -22,7 +22,7 @@ namespace TrARKSlator
         }
 
         abstract public string DetectLanguage(string text);
-        abstract public string Translate(string text, string from);
+        abstract public string Translate(string text, ref string from);
 
         public List<TranslatorServiceField> Fields = new List<TranslatorServiceField>();
 
@@ -77,7 +77,7 @@ namespace TrARKSlator
         {
             return "en";
         }
-        override public string Translate(string text, string from)
+        override public string Translate(string text, ref string from)
         {
             return text;
         }

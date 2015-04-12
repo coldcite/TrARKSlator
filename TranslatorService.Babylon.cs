@@ -10,20 +10,20 @@ using Newtonsoft.Json.Linq;
 
 namespace TrARKSlator
 {
-    public class TranslatorService_Google : TranslatorService
+    public class TranslatorService_Babylon : TranslatorService
     {
 
-        public TranslatorService_Google()
+        public TranslatorService_Babylon()
         {
 
-            this.Name = "Google";
+            this.Name = "Babylon (JP only)";
 
         }
 
         override public string DetectLanguage(string text)
         {
 
-            return "auto";
+            return ParsingSupport.isJapanese(text) ? "ja" : "en";
 
         }
 
@@ -31,16 +31,19 @@ namespace TrARKSlator
         {
 
             string transText = "";
-            string transURL = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=" + from + "&tl=en&dt=t&ie=UTF-8&oe=UTF-8&q=" + HttpUtility.UrlEncode( text );
+            string transURL = "http://translation.babylon.com/translate/babylon.php?v=1.0&q=" + HttpUtility.UrlEncode(text) + "&langpair=8%7C0&callback=babylonTranslator.callback&context=babylon.8.0._babylon_api_response";
 
             try
             {
                 using (WebClient client = new WebClient())
                 {
+
                     string transResp = client.DownloadString(transURL);
-                    JArray trObject = JArray.Parse(transResp);
-                    foreach (JArray line in trObject[0]) transText += line[0].ToString();
-                    transText = transText.TrimEnd(Environment.NewLine.ToCharArray());
+                    string[] a_transResp = transResp.Split(',');
+
+                    JObject trObject = JObject.Parse(a_transResp[1]);
+                    transText = trObject["translatedText"].ToString();
+
                 }
             }
             catch (Exception e) { transText = text; from = "ERROR"; }

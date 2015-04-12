@@ -50,7 +50,7 @@ namespace TrARKSlator
             // MouseLeave trick
             ptOnWinTimer.Tick += new EventHandler(ptOnWinTimer_Tick);
             ptOnWinTimer.Interval = 50;
-            ptOnWinTimer.Enabled = true;
+            //ptOnWinTimer.Enabled = true;
 
         }
 
@@ -67,7 +67,7 @@ namespace TrARKSlator
                 delegate(TranslatorService tr)
                 {
 
-                    var ttb = new ToolStripButton(tr.Name);
+                    var ttb = new ToolStripMenuItem(tr.Name);
                     ttb.Click += new EventHandler(tsddbGenericHandler);
                     tsddbServices.DropDownItems.Add(ttb);
 
@@ -128,7 +128,7 @@ namespace TrARKSlator
 
         private void txtLog_TextChanged(object sender, EventArgs e)
         {
-            Debug.WriteLine(txtLog.GetPositionFromCharIndex(0));
+            //Debug.WriteLine(txtLog.GetPositionFromCharIndex(0));
             txtLog.SelectionStart = txtLog.Text.Length; txtLog.ScrollToCaret();
         }
 
@@ -210,7 +210,7 @@ namespace TrARKSlator
         {
 
             // Update menu items
-            foreach (ToolStripButton d in tsddbServices.DropDownItems) { d.Checked = (d.Text == service); }
+            foreach (ToolStripMenuItem d in tsddbServices.DropDownItems) { d.Checked = (d.Text == service); }
             tsddbServices.Text = service;
             
             // Update current active
@@ -222,6 +222,7 @@ namespace TrARKSlator
         private void toggleAlwaysOnTop(bool state) {
 
             this.TopMost = state;
+            ptOnWinTimer.Enabled = state;
 
             tsddbAlwaysOnTopOff.Visible = state;
             tsddbAlwaysOnTopOn.Visible = !state;
@@ -287,12 +288,13 @@ namespace TrARKSlator
 
                 // If not EN, translate
                 string transText = "";
-                if (msgLang != "en") transText = tr.Translate(msg.Message, msgLang);
+                if (msgLang != "en") transText = tr.Translate(msg.Message, ref msgLang);
 
                 // Let's add whatever
                 txtLog.AppendText(msg.From + "\r\n", msgColor, 0, true);
-                txtLog.AppendText(msg.Message + "\r\n", msgColor, 15);
-                if ((msgLang != "en") && (msg.Message != transText))      // Sometimes gibberish gets translated because it's detected as some other language
+                string[] a_Message = msg.Message.Split('\n');
+                foreach(string line in a_Message) txtLog.AppendText(line + "\r\n", msgColor, 15);   // Adding one line at a time solves multi-laguage/multi-line formatting issue
+                if ((msgLang != "en") && (msg.Message != transText.Trim()))                         // Sometimes gibberish gets translated because it's detected as some other language
                     txtLog.AppendText(transText + "\r\n", msgColor, 15, false, true, 0.7F);
 
             }

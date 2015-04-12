@@ -20,8 +20,11 @@ namespace TrARKSlator
 
             // Let's create TranslatorServices instances
             TranslatorService_Dummy tlDummy = new TranslatorService_Dummy();
-            TranslatorService_Yandex tlYandex = new TranslatorService_Yandex();
             TranslatorService_Google tlGoogle = new TranslatorService_Google();
+            TranslatorService_Bing tlBing = new TranslatorService_Bing();
+            TranslatorService_Yandex tlYandex = new TranslatorService_Yandex();
+            TranslatorService_Babylon tlBabylon = new TranslatorService_Babylon();
+            TranslatorService_FreeTranslation_com tlFreeTrans_com = new TranslatorService_FreeTranslation_com();
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -51,7 +54,8 @@ namespace TrARKSlator
             );
 
             box.AppendText(text);
-            box.SelectionColor = box.ForeColor;
+
+            //box.SelectionColor = box.ForeColor;
 
         }
     }

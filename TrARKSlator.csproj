@@ -120,6 +120,9 @@
     <Compile Include="TextOnGlass.GlassText.cs" />
     <Compile Include="ParsingSupport.cs" />
     <Compile Include="ToolStripTrackBar.cs" />
+    <Compile Include="TranslatorService.Babylon.cs" />
+    <Compile Include="TranslatorService.FreeTranslation_com.cs" />
+    <Compile Include="TranslatorService.Bing.cs" />
     <Compile Include="TranslatorService.Google.cs" />
     <Compile Include="TranslatorService.Yandex.cs" />
     <Compile Include="Hakusai.CsvParser.cs" />
