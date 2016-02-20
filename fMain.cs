@@ -33,8 +33,9 @@ namespace TrARKSlator
         public const int HTCAPTION = 0x2;
 
 
-        // MouseLeave trick
-        Timer ptOnWinTimer = new Timer();
+        // MouseLeave tricks
+        private Timer ptOnWinTimer = new Timer();
+        private Size noBorderFullSize = new Size();
 
 
 
@@ -257,7 +258,6 @@ namespace TrARKSlator
         // Toggle border only
         private void toggleBordersOnly(bool state)
         {
-            Debug.WriteLine("toggleBordersOnly");
 
             pnlTop.Height = state ? 0 : 22;
             statusStripMain.Visible = !state;
@@ -266,6 +266,11 @@ namespace TrARKSlator
             mg.m_Buttom = 0; mg.m_Left = 0; mg.m_Right = 0; mg.m_Top = pnlTop.Height;
             GlassText.DwmExtendFrameIntoClientArea(this.Handle, ref mg);
             this.Invalidate();
+
+            // Remove borders
+            if (state) this.noBorderFullSize = this.Size;
+            this.FormBorderStyle = state ? FormBorderStyle.FixedSingle : FormBorderStyle.Sizable;
+            this.Size = this.noBorderFullSize;
 
         }
         private bool haveBorders()
