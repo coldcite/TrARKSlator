@@ -45,8 +45,10 @@ namespace TrARKSlator
 
             // Removes old lines when over 500
             if (box.Lines.Length > 500) {
+                box.ReadOnly = false;
                 box.Select(0, box.GetFirstCharIndexFromLine(1));
                 box.SelectedText = "";
+                box.ReadOnly = true;
             }
 
             box.SelectionStart = box.TextLength;
