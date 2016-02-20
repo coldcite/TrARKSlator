@@ -34,6 +34,7 @@
             this.tsddbServices = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsslSeparator = new System.Windows.Forms.ToolStripStatusLabel();
             this.tsddbOpacity = new System.Windows.Forms.ToolStripDropDownButton();
+            this.tstbOpacity = new Microsoft.ParallelComputingPlatform.ParallelExtensions.Samples.ToolStripTrackBar();
             this.tsddbAlwaysOnTopOff = new System.Windows.Forms.ToolStripDropDownButton();
             this.tsddbAlwaysOnTopOn = new System.Windows.Forms.ToolStripDropDownButton();
             this.pnlTop = new System.Windows.Forms.Panel();
@@ -41,7 +42,6 @@
             this.pnlMid = new System.Windows.Forms.Panel();
             this.txtLog = new System.Windows.Forms.RichTextBox();
             this.btnClose = new System.Windows.Forms.Button();
-            this.tstbOpacity = new Microsoft.ParallelComputingPlatform.ParallelExtensions.Samples.ToolStripTrackBar();
             this.statusStripMain.SuspendLayout();
             this.pnlTop.SuspendLayout();
             this.pnlMid.SuspendLayout();
@@ -107,6 +107,14 @@
             this.tsddbOpacity.Text = "--%";
             this.tsddbOpacity.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.tsddbOpacity.ToolTipText = "Opacity";
+            // 
+            // tstbOpacity
+            // 
+            this.tstbOpacity.Minimum = 25;
+            this.tstbOpacity.Name = "tstbOpacity";
+            this.tstbOpacity.Size = new System.Drawing.Size(104, 16);
+            this.tstbOpacity.Value = 100;
+            this.tstbOpacity.ValueChanged += new System.EventHandler(this.tstbOpacity_ValueChanged);
             // 
             // tsddbAlwaysOnTopOff
             // 
@@ -179,9 +187,16 @@
             this.txtLog.ReadOnly = true;
             this.txtLog.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
             this.txtLog.Size = new System.Drawing.Size(298, 138);
-            this.txtLog.TabIndex = 2;
+            this.txtLog.TabIndex = 0;
+            this.txtLog.TabStop = false;
             this.txtLog.Text = "";
+            this.txtLog.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.txtLog_LinkClicked);
+            this.txtLog.VScroll += new System.EventHandler(this.txtLog_VScroll);
             this.txtLog.TextChanged += new System.EventHandler(this.txtLog_TextChanged);
+            this.txtLog.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtLog_KeyDown);
+            this.txtLog.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtLog_KeyUp);
+            this.txtLog.MouseDown += new System.Windows.Forms.MouseEventHandler(this.txtLog_MouseDown);
+            this.txtLog.MouseUp += new System.Windows.Forms.MouseEventHandler(this.txtLog_MouseUp);
             // 
             // btnClose
             // 
@@ -198,14 +213,6 @@
             this.btnClose.TabIndex = 5;
             this.btnClose.UseVisualStyleBackColor = false;
             this.btnClose.Click += new System.EventHandler(this.btnClose_Click);
-            // 
-            // tstbOpacity
-            // 
-            this.tstbOpacity.Minimum = 25;
-            this.tstbOpacity.Name = "tstbOpacity";
-            this.tstbOpacity.Size = new System.Drawing.Size(104, 16);
-            this.tstbOpacity.Value = 100;
-            this.tstbOpacity.ValueChanged += new System.EventHandler(this.tstbOpacity_ValueChanged);
             // 
             // fMain
             // 
@@ -224,6 +231,7 @@
             this.Name = "fMain";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.fMain_FormClosing);
             this.Load += new System.EventHandler(this.fMain_Load);
+            this.ResizeEnd += new System.EventHandler(this.fMain_ResizeEnd);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.fMain_Paint);
             this.Resize += new System.EventHandler(this.fMain_Resize);
             this.statusStripMain.ResumeLayout(false);

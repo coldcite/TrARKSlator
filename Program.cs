@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using System.ComponentModel;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace TrARKSlator
 {
@@ -42,6 +43,12 @@ namespace TrARKSlator
         public static void AppendText(this RichTextBox box, string text, Color color, int indent=0, bool bold=false, bool italic = false, float fontScale=1)
         {
 
+            // Removes old lines when over 500
+            if (box.Lines.Length > 500) {
+                box.Select(0, box.GetFirstCharIndexFromLine(1));
+                box.SelectedText = "";
+            }
+
             box.SelectionStart = box.TextLength;
             box.SelectionLength = 0;
 
@@ -54,8 +61,6 @@ namespace TrARKSlator
             );
 
             box.AppendText(text);
-
-            //box.SelectionColor = box.ForeColor;
 
         }
     }

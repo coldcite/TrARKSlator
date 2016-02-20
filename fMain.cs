@@ -19,13 +19,19 @@ namespace TrARKSlator
     public partial class fMain : Form
     {
 
-        // Move with label
-        public const int WM_NCLBUTTONDOWN = 0xA1;
-        public const int HTCAPTION = 0x2;
+
         [DllImport("User32.dll")]
         public static extern bool ReleaseCapture();
         [DllImport("User32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        [DllImport("user32")]
+        private static extern bool HideCaret(IntPtr hWnd); 
+
+
+        // Move with label
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HTCAPTION = 0x2;
+
 
         // MouseLeave trick
         Timer ptOnWinTimer = new Timer();
@@ -84,25 +90,25 @@ namespace TrARKSlator
             txtLog.BackColor = Properties.Settings.Default.ColorBackground;
             this.OnResize(e);
 
-
             // Start the log watcher
             using (IPso2LogWatcherFactory factory = new Pso2LogWatcherFactory())
             using (IPso2LogWatcher watcher = factory.CreatePso2LogWatcher())
             {
-                 watcher.Pso2LogEvent += (sndr, ev) => {
+                watcher.Pso2LogEvent += (sndr, ev) =>
+                {
 
-                     // That's a command, let's quit
-                     if (ParsingSupport.isPSO2ChatCommand(ev.Message)) return;
+                    // That's a command, let's quit
+                    if (ParsingSupport.isPSO2ChatCommand(ev.Message)) return;
 
-                     // Let's remove all crap
-                     ev.Message = ParsingSupport.chatCleanUp(ev.Message);
+                    // Let's remove all crap
+                    ev.Message = ParsingSupport.chatCleanUp(ev.Message);
 
-                     // If message didn't turned out all crap, let's display
-                     if (ev.Message != "") addLine(ev); 
-                 
-                 };
-                 watcher.Start();
-             }
+                    // If message didn't turned out all crap, let's display
+                    if (ev.Message != "") addLine(ev);
+
+                };
+                watcher.Start();
+            }
 
         }
 
@@ -116,49 +122,15 @@ namespace TrARKSlator
             Properties.Settings.Default.Opacity = this.Opacity;
             Properties.Settings.Default.Save();
         }
-        
+
         private void fMain_Resize(object sender, EventArgs e)
         {
 
-            txtLog.Width = this.Width-17;
-            txtLog.Height = this.Height-60;
-            btnClose.Location= new Point(this.Width - 41, 0);
+            txtLog.Width = this.Width - 17;
+            txtLog.Height = this.Height - 60;
+            btnClose.Location = new Point(this.Width - 41, 0);
+            HideCaret(txtLog.Handle);
 
-        }
-
-        private void txtLog_TextChanged(object sender, EventArgs e)
-        {
-            //Debug.WriteLine(txtLog.GetPositionFromCharIndex(0));
-            txtLog.SelectionStart = txtLog.Text.Length; txtLog.ScrollToCaret();
-        }
-
-        private void tsddbAlwaysOnTopOff_Click(object sender, EventArgs e)
-        {
-            toggleAlwaysOnTop(false);
-        }
-
-        private void tsddbAlwaysOnTopOn_Click(object sender, EventArgs e)
-        {
-            toggleAlwaysOnTop(true);
-        }
-
-        private void tstbOpacity_ValueChanged(object sender, EventArgs e)
-        {
-            SetOpacity(Convert.ToDouble(this.tstbOpacity.Value) / 100, false);
-        }
-
-        private void pnlTop_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                ReleaseCapture();
-                SendMessage(Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
-            }
-        }
-
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            System.Windows.Forms.Application.Exit();
         }
 
         private void fMain_Paint(object sender, PaintEventArgs e)
@@ -180,13 +152,42 @@ namespace TrARKSlator
 
         }
 
-        private void ptOnWinTimer_Tick(object sender, EventArgs e)
+
+        private void txtLog_TextChanged(object sender, EventArgs e)
         {
-            Point pos = Control.MousePosition;
-            bool inForm = pos.X >= Left && pos.Y >= Top && pos.X < Right && pos.Y < Bottom;
-            if (!inForm) {
-                if (this.TopMost && haveBorders()) toggleBordersOnly(true);
-            } else { if (!haveBorders()) toggleBordersOnly(false); }
+            txtLog.SelectionStart = txtLog.Text.Length; txtLog.ScrollToCaret();
+            HideCaret(txtLog.Handle);
+        }
+
+        private void txtLog_LinkClicked(object sender, LinkClickedEventArgs e)
+        {
+            System.Diagnostics.Process.Start(e.LinkText);
+        }
+
+        private void txtLog_KeyUp(object sender, KeyEventArgs e) { HideCaret(txtLog.Handle); }
+        private void txtLog_KeyDown(object sender, KeyEventArgs e) { HideCaret(txtLog.Handle); }
+        private void txtLog_MouseUp(object sender, MouseEventArgs e) { HideCaret(txtLog.Handle); }
+        private void txtLog_MouseDown(object sender, MouseEventArgs e) { HideCaret(txtLog.Handle); }
+        private void txtLog_VScroll(object sender, EventArgs e) { HideCaret(txtLog.Handle); }
+        private void fMain_ResizeEnd(object sender, EventArgs e) { HideCaret(txtLog.Handle); }
+
+
+        // Generic handler for menu items
+        private void tsddbGenericHandler(object sender, EventArgs e)
+        {
+
+            ActivateService(sender.ToString());
+
+        }
+
+        private void tsddbAlwaysOnTopOff_Click(object sender, EventArgs e)
+        {
+            toggleAlwaysOnTop(false);
+        }
+
+        private void tsddbAlwaysOnTopOn_Click(object sender, EventArgs e)
+        {
+            toggleAlwaysOnTop(true);
         }
 
         private void tsddbPreferences_Click(object sender, EventArgs e)
@@ -196,30 +197,43 @@ namespace TrARKSlator
             if (pref.ShowDialog() == DialogResult.OK) txtLog.BackColor = Properties.Settings.Default.ColorBackground;
         }
 
-
-
-        // Generic handler for menu items
-        private void tsddbGenericHandler(object sender, EventArgs e) {
-
-            ActivateService(sender.ToString());
-
+        private void tstbOpacity_ValueChanged(object sender, EventArgs e)
+        {
+            SetOpacity(Convert.ToDouble(this.tstbOpacity.Value) / 100, false);
         }
 
-        // Starts using translation service selected
-        private void ActivateService(string service)
+
+        private void pnlTop_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
+            }
+        }
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Application.Exit();
+        }
+
+        private void ptOnWinTimer_Tick(object sender, EventArgs e)
         {
 
-            // Update menu items
-            foreach (ToolStripMenuItem d in tsddbServices.DropDownItems) { d.Checked = (d.Text == service); }
-            tsddbServices.Text = service;
-            
-            // Update current active
-            AvailableTranslationServices.Active = AvailableTranslationServices.List().Find(x => x.Name == service);
+            Point pos = Control.MousePosition;
+            bool inForm = pos.X >= Left && pos.Y >= Top && pos.X < Right && pos.Y < Bottom;
+            if (!inForm)
+            {
+                if (this.TopMost && haveBorders()) toggleBordersOnly(true);
+            }
+            else { if (!haveBorders()) toggleBordersOnly(false); }
 
         }
 
+
         // Toggles always-on-top on/or
-        private void toggleAlwaysOnTop(bool state) {
+        private void toggleAlwaysOnTop(bool state)
+        {
 
             this.TopMost = state;
             ptOnWinTimer.Enabled = state;
@@ -230,11 +244,11 @@ namespace TrARKSlator
         }
 
         // Sets opacity
-        private void SetOpacity(double value, bool setControl=true)
+        private void SetOpacity(double value, bool setControl = true)
         {
 
             tsddbOpacity.Text = Convert.ToInt32(value * 100).ToString() + "%";
-            if (setControl) tstbOpacity.Value = Convert.ToInt32(value*100);
+            if (setControl) tstbOpacity.Value = Convert.ToInt32(value * 100);
             this.Opacity = value;
             this.Invalidate();
 
@@ -259,6 +273,20 @@ namespace TrARKSlator
             return pnlTop.Height != 0;
         }
 
+
+        // Starts using translation service selected
+        private void ActivateService(string service)
+        {
+
+            // Update menu items
+            foreach (ToolStripMenuItem d in tsddbServices.DropDownItems) { d.Checked = (d.Text == service); }
+            tsddbServices.Text = service;
+
+            // Update current active
+            AvailableTranslationServices.Active = AvailableTranslationServices.List().Find(x => x.Name == service);
+
+        }
+
         // Add chalog message to our log
         delegate void addLineCallback(Pso2LogEventArgs msg);
         public void addLine(Pso2LogEventArgs msg)
@@ -274,7 +302,8 @@ namespace TrARKSlator
 
                 // Let's pick a color to print
                 Color msgColor;
-                switch (msg.SendTo) {
+                switch (msg.SendTo)
+                {
                     case "PARTY": msgColor = Properties.Settings.Default.ColorParty; break;
                     case "GUILD": msgColor = Properties.Settings.Default.ColorGuild; break;
                     case "REPLY": msgColor = Properties.Settings.Default.ColorReply; break;
@@ -293,7 +322,7 @@ namespace TrARKSlator
                 // Let's add whatever
                 txtLog.AppendText(msg.From + "\r\n", msgColor, 0, true);
                 string[] a_Message = msg.Message.Split('\n');
-                foreach(string line in a_Message) txtLog.AppendText(line + "\r\n", msgColor, 15);   // Adding one line at a time solves multi-laguage/multi-line formatting issue
+                foreach (string line in a_Message) txtLog.AppendText(line + "\r\n", msgColor, 15);   // Adding one line at a time solves multi-laguage/multi-line formatting issue
                 if ((msgLang != "en") && (msg.Message != transText.Trim()))                         // Sometimes gibberish gets translated because it's detected as some other language
                     txtLog.AppendText(transText + "\r\n", msgColor, 15, false, true, 0.7F);
 
