@@ -36,6 +36,8 @@ namespace TrARKSlator
             btnColorGuild.FlatAppearance.MouseOverBackColor = Properties.Settings.Default.ColorGuild;
             btnColorReply.BackColor = Properties.Settings.Default.ColorReply;
             btnColorReply.FlatAppearance.MouseOverBackColor = Properties.Settings.Default.ColorReply;
+            btnColorGroup.BackColor = Properties.Settings.Default.ColorGroup;
+            btnColorGroup.FlatAppearance.MouseOverBackColor = Properties.Settings.Default.ColorGroup;
             btnColorBackground.BackColor = Properties.Settings.Default.ColorBackground;
             btnColorBackground.FlatAppearance.MouseOverBackColor = Properties.Settings.Default.ColorBackground;
 
@@ -71,6 +73,7 @@ namespace TrARKSlator
             Properties.Settings.Default.ColorParty = btnColorParty.BackColor;
             Properties.Settings.Default.ColorGuild = btnColorGuild.BackColor;
             Properties.Settings.Default.ColorReply = btnColorReply.BackColor;
+            Properties.Settings.Default.ColorGroup = btnColorGroup.BackColor;
             Properties.Settings.Default.ColorBackground = btnColorBackground.BackColor;
 
             Properties.Settings.Default.Save();
@@ -98,6 +101,7 @@ namespace TrARKSlator
                     case "btnColorParty": defColor = Color.FromArgb(76,228,255); break;
                     case "btnColorGuild": defColor = Color.Orange; break;
                     case "btnColorReply": defColor = Color.FromArgb(255, 135, 204); break;
+                    case "btnColorGroup": defColor = Color.FromArgb(255, 150, 240, 85); break;
                     case "btnColorBackground": defColor = Color.FromArgb(64, 64, 64); break;
                 }
 

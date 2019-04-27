@@ -45,6 +45,8 @@
             this.btnColorBackground = new System.Windows.Forms.Button();
             this.btnApply = new System.Windows.Forms.Button();
             this.ttProtip = new System.Windows.Forms.ToolTip(this.components);
+            this.lblColorGroup = new System.Windows.Forms.Label();
+            this.btnColorGroup = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnFont
@@ -175,7 +177,7 @@
             // lblColorBackground
             // 
             this.lblColorBackground.AutoSize = true;
-            this.lblColorBackground.Location = new System.Drawing.Point(12, 270);
+            this.lblColorBackground.Location = new System.Drawing.Point(12, 320);
             this.lblColorBackground.Name = "lblColorBackground";
             this.lblColorBackground.Size = new System.Drawing.Size(70, 13);
             this.lblColorBackground.TabIndex = 11;
@@ -187,7 +189,7 @@
             this.btnColorBackground.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlDark;
             this.btnColorBackground.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
             this.btnColorBackground.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnColorBackground.Location = new System.Drawing.Point(12, 286);
+            this.btnColorBackground.Location = new System.Drawing.Point(12, 336);
             this.btnColorBackground.Name = "btnColorBackground";
             this.btnColorBackground.Size = new System.Drawing.Size(260, 23);
             this.btnColorBackground.TabIndex = 10;
@@ -199,7 +201,7 @@
             // btnApply
             // 
             this.btnApply.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnApply.Location = new System.Drawing.Point(197, 327);
+            this.btnApply.Location = new System.Drawing.Point(197, 365);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(75, 23);
             this.btnApply.TabIndex = 12;
@@ -207,11 +209,36 @@
             this.btnApply.UseVisualStyleBackColor = true;
             this.btnApply.Click += new System.EventHandler(this.btnApply_Click);
             // 
+            // lblColorGroup
+            // 
+            this.lblColorGroup.AutoSize = true;
+            this.lblColorGroup.Location = new System.Drawing.Point(12, 257);
+            this.lblColorGroup.Name = "lblColorGroup";
+            this.lblColorGroup.Size = new System.Drawing.Size(40, 13);
+            this.lblColorGroup.TabIndex = 13;
+            this.lblColorGroup.Text = "Group";
+            // 
+            // btnColorGroup
+            // 
+            this.btnColorGroup.FlatAppearance.BorderColor = System.Drawing.SystemColors.ControlDark;
+            this.btnColorGroup.FlatAppearance.MouseDownBackColor = System.Drawing.SystemColors.ControlDark;
+            this.btnColorGroup.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.btnColorGroup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnColorGroup.Location = new System.Drawing.Point(12, 273);
+            this.btnColorGroup.Name = "btnColorGroup";
+            this.btnColorGroup.Size = new System.Drawing.Size(260, 23);
+            this.btnColorGroup.TabIndex = 14;
+            this.ttProtip.SetToolTip(this.btnColorGroup, "Right click to reset.");
+            this.btnColorGroup.UseVisualStyleBackColor = true;
+            this.btnColorGroup.MouseDown += new System.Windows.Forms.MouseEventHandler(this.generic_btnColor_Click);
+            // 
             // fPreferences
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 361);
+            this.ClientSize = new System.Drawing.Size(284, 400);
+            this.Controls.Add(this.btnColorGroup);
+            this.Controls.Add(this.lblColorGroup);
             this.Controls.Add(this.btnApply);
             this.Controls.Add(this.lblColorBackground);
             this.Controls.Add(this.btnColorBackground);
@@ -256,6 +283,7 @@
         private System.Windows.Forms.Button btnColorBackground;
         private System.Windows.Forms.Button btnApply;
         private System.Windows.Forms.ToolTip ttProtip;
-
+        private System.Windows.Forms.Label lblColorGroup;
+        private System.Windows.Forms.Button btnColorGroup;
     }
 }
