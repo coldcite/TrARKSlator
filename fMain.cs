@@ -312,6 +312,7 @@ namespace TrARKSlator
                     case "PARTY": msgColor = Properties.Settings.Default.ColorParty; break;
                     case "GUILD": msgColor = Properties.Settings.Default.ColorGuild; break;
                     case "REPLY": msgColor = Properties.Settings.Default.ColorReply; break;
+                    case "GROUP": msgColor = Properties.Settings.Default.ColorGroup; break;
                     default: msgColor = Properties.Settings.Default.ColorDefault; break;
                 }
 

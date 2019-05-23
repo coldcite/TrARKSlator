@@ -154,5 +154,17 @@ namespace TrARKSlator.Properties {
                 this["ColorBackground"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("150, 240, 85")]
+        public global::System.Drawing.Color ColorGroup {
+            get {
+                return ((global::System.Drawing.Color)(this["ColorGroup"]));
+            }
+            set {
+                this["ColorGroup"] = value;
+            }
+        }
     }
 }

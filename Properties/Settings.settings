@@ -35,5 +35,8 @@
     <Setting Name="ColorBackground" Type="System.Drawing.Color" Scope="User">
       <Value Profile="(Default)">64, 64, 64</Value>
     </Setting>
+    <Setting Name="ColorGroup" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">150, 240, 85</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
